@@ -15,12 +15,12 @@ namespace MagicStorage.Components
     {
         public override ModTileEntity GetTileEntity()
         {
-            return mod.GetTileEntity("TEStorageHeart");
+            return Mod.GetTileEntity("TEStorageHeart");
         }
 
         public override int ItemType(int frameX, int frameY)
         {
-            return mod.ItemType("StorageHeart");
+            return Mod.ItemType("StorageHeart");
         }
 
         public override bool HasSmartInteract()
@@ -33,11 +33,11 @@ namespace MagicStorage.Components
             return (TEStorageHeart)TileEntity.ByPosition[new Point16(i, j)];
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Player player = Main.player[Main.myPlayer];
             Item item = player.inventory[player.selectedItem];
-            if (item.type == mod.ItemType("Locator") || item.type == mod.ItemType("LocatorDisk") || item.type == mod.ItemType("PortableAccess"))
+            if (item.type == Mod.ItemType("Locator") || item.type == Mod.ItemType("LocatorDisk") || item.type == Mod.ItemType("PortableAccess"))
             {
                 if (Main.tile[i, j].frameX % 36 == 18)
                 {
@@ -58,7 +58,7 @@ namespace MagicStorage.Components
             }
             else
             {
-                return base.NewRightClick(i, j);
+                return base.RightClick(i, j);
             }
         }
     }

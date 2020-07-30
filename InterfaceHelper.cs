@@ -52,7 +52,7 @@ namespace MagicStorage
             }
             if (modTile is CraftingAccess)
             {
-                CraftingGUI.Draw(heart);
+                //CraftingGUI.Draw(heart);
             }
             else
             {

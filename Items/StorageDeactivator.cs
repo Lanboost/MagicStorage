@@ -13,19 +13,19 @@ namespace MagicStorage.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storage Unit Wand");
-            DisplayName.AddTranslation(GameCulture.Russian, "Жезл Ячейки Хранилища");
-            DisplayName.AddTranslation(GameCulture.Polish, "Różdżka jednostki magazynującej");
-            DisplayName.AddTranslation(GameCulture.French, "Baguette d'unité de stockage");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Varita de unidad de almacenamiento");
-            DisplayName.AddTranslation(GameCulture.French, "Baguetter d'unité de stockage");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储单元魔杖");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Жезл Ячейки Хранилища");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Różdżka jednostki magazynującej");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Baguette d'unité de stockage");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Varita de unidad de almacenamiento");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Baguetter d'unité de stockage");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储单元魔杖");
 
             Tooltip.SetDefault("<right> Storage Unit to toggle between Active/Inactive");
-            Tooltip.AddTranslation(GameCulture.Russian, "<right> на Ячейке Хранилища что бы активировать/деактивировать ее");
-            Tooltip.AddTranslation(GameCulture.Polish, "<right> aby przełączyć Jednostkę Magazynującą (wł./wył.)");
-            Tooltip.AddTranslation(GameCulture.French, "<right> pour changer l'unité de stockage actif/inactif");
-            Tooltip.AddTranslation(GameCulture.Spanish, "<right> para cambiar el unidad de almacenamiento activo/inactivo");
-            Tooltip.AddTranslation(GameCulture.Chinese, "<right>存储单元使其切换启用/禁用");
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "<right> на Ячейке Хранилища что бы активировать/деактивировать ее");
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "<right> aby przełączyć Jednostkę Magazynującą (wł./wył.)");
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "<right> pour changer l'unité de stockage actif/inactif");
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "<right> para cambiar el unidad de almacenamiento activo/inactivo");
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "<right>存储单元使其切换启用/禁用");
         }
 
         public override void SetDefaults()
@@ -79,12 +79,13 @@ namespace MagicStorage.Items
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ActuationRod);
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(ItemID.ActuationRod);
             recipe.AddIngredient(null, "StorageComponent");
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
         }
     }
 }

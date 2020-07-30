@@ -15,12 +15,12 @@ namespace MagicStorage.Components
     {
         public override ModTileEntity GetTileEntity()
         {
-            return mod.GetTileEntity("TECraftingAccess");
+            return Mod.GetTileEntity("TECraftingAccess");
         }
 
         public override int ItemType(int frameX, int frameY)
         {
-            return mod.ItemType("CraftingAccess");
+            return Mod.ItemType("CraftingAccess");
         }
 
         public override bool HasSmartInteract()

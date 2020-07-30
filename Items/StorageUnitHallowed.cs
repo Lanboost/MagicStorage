@@ -11,11 +11,11 @@ namespace MagicStorage.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hallowed Storage Unit");
-            DisplayName.AddTranslation(GameCulture.Russian, "Святая Ячейка Хранилища");
-            DisplayName.AddTranslation(GameCulture.Polish, "Jednostka magazynująca (Święcona)");
-            DisplayName.AddTranslation(GameCulture.French, "Unité de stockage (Sacré)");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Unidad de Almacenamiento (Sagrado)");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储单元(神圣)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Святая Ячейка Хранилища");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Jednostka magazynująca (Święcona)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Unité de stockage (Sacré)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Unidad de Almacenamiento (Sagrado)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储单元(神圣)");
         }
 
         public override void SetDefaults()
@@ -31,17 +31,18 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 4;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.createTile = mod.TileType("StorageUnit");
+            item.createTile = Mod.TileType("StorageUnit");
             item.placeStyle = 4;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("StorageUnitHellstone"));
-            recipe.AddIngredient(mod.ItemType("UpgradeHallowed"));
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(Mod.ItemType("StorageUnitHellstone"));
+            recipe.AddIngredient(Mod.ItemType("UpgradeHallowed"));
+			recipe.Register();
         }
     }
 }

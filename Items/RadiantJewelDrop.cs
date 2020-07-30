@@ -12,7 +12,7 @@ namespace MagicStorage.Items
         {
             if (npc.type == NPCID.MoonLordCore && !Main.expertMode && Main.rand.Next(20) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RadiantJewel"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Mod.ItemType("RadiantJewel"));
             }
         }
     }

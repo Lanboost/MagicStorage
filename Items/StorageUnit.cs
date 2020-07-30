@@ -10,11 +10,11 @@ namespace MagicStorage.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.AddTranslation(GameCulture.Russian, "Ячейка Хранилища");
-            DisplayName.AddTranslation(GameCulture.Polish, "Jednostka magazynująca");
-            DisplayName.AddTranslation(GameCulture.French, "Unité de stockage");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Unidad de Almacenamiento");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储单元");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Ячейка Хранилища");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Jednostka magazynująca");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Unité de stockage");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Unidad de Almacenamiento");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储单元");
         }
         public override void SetDefaults()
         {
@@ -29,26 +29,28 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 0;
             item.value = Item.sellPrice(0, 0, 6, 0);
-            item.createTile = mod.TileType("StorageUnit");
+            item.createTile = Mod.TileType("StorageUnit");
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("StorageComponent"));
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(Mod.ItemType("StorageComponent"));
             recipe.AddRecipeGroup("MagicStorage:AnyChest");
             recipe.AddIngredient(ItemID.SilverBar, 10);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
 
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("StorageComponent"));
+			recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(Mod.ItemType("StorageComponent"));
             recipe.AddRecipeGroup("MagicStorage:AnyChest");
             recipe.AddIngredient(ItemID.TungstenBar, 10);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
         }
     }
 }

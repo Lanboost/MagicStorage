@@ -66,7 +66,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return item.thrown;
+            return false;
         }
     }
 
@@ -74,7 +74,7 @@ namespace MagicStorage.Sorting
     {
         public override bool Passes(Item item)
         {
-            return !item.melee && !item.ranged && !item.magic && !item.summon && !item.thrown && item.damage > 0;
+            return !item.melee && !item.ranged && !item.magic && !item.summon && item.damage > 0;
         }
     }
 

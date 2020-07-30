@@ -10,11 +10,11 @@ namespace MagicStorage.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.AddTranslation(GameCulture.Russian, "Сердце Хранилища");
-            DisplayName.AddTranslation(GameCulture.Polish, "Serce Jednostki Magazynującej");
-            DisplayName.AddTranslation(GameCulture.French, "Cœur de Stockage");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Corazón de Almacenamiento");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储核心");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Сердце Хранилища");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Serce Jednostki Magazynującej");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Cœur de Stockage");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Corazón de Almacenamiento");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储核心");
         }
         
         public override void SetDefaults()
@@ -30,13 +30,15 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 1;
             item.value = Item.sellPrice(0, 1, 35, 0);
-            item.createTile = mod.TileType("StorageHeart");
+            item.createTile = Mod.TileType("StorageHeart");
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StorageComponent");
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(null, "StorageComponent");
             recipe.AddRecipeGroup("MagicStorage:AnyDiamond", 3);
             if (MagicStorage.legendMod == null)
             {
@@ -47,8 +49,7 @@ namespace MagicStorage.Items
                 recipe.AddRecipeGroup("MagicStorage:AnyEmerald", 7);
             }
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
         }
     }
 }

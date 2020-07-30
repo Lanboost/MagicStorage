@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Localization;
+using Terraria.Audio;
 
 namespace MagicStorage.Items
 {
@@ -15,16 +16,16 @@ namespace MagicStorage.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Portable Remote Storage Access");
-            DisplayName.AddTranslation(GameCulture.Russian, "Портативный Модуль Удаленного Доступа к Хранилищу");
-            DisplayName.AddTranslation(GameCulture.Chinese, "便携式远程存储装置");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Портативный Модуль Удаленного Доступа к Хранилищу");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "便携式远程存储装置");
 
             Tooltip.SetDefault("<right> Storage Heart to store location"
                 + "\nCurrently not set to any location"
                 + "\nUse item to access your storage");
-            Tooltip.AddTranslation(GameCulture.Russian, "<right> по Cердцу Хранилища чтобы запомнить его местоположение"
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "<right> по Cердцу Хранилища чтобы запомнить его местоположение"
                 + "\nВ данный момент Сердце Хранилища не привязанно"
                 + "\nИспользуйте что бы получить доступ к вашему Хранилищу");
-            Tooltip.AddTranslation(GameCulture.Chinese, "<right>存储核心可储存其定位点"
+            Tooltip.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "<right>存储核心可储存其定位点"
                 + "\n目前未设置为任何位置"
                 + "\n使用可直接访问你的存储");
         }
@@ -48,7 +49,7 @@ namespace MagicStorage.Items
                 if (location.X >= 0 && location.Y >= 0)
                 {
                     Tile tile = Main.tile[location.X, location.Y];
-                    if (!tile.active() || tile.type != mod.TileType("StorageHeart") || tile.frameX != 0 || tile.frameY != 0)
+                    if (!tile.active() || tile.type != Mod.TileType("StorageHeart") || tile.frameX != 0 || tile.frameY != 0)
                     {
                         Main.NewText("Storage Heart is missing!");
                     }
@@ -70,14 +71,14 @@ namespace MagicStorage.Items
             StoragePlayer modPlayer = player.GetModPlayer<StoragePlayer>();
             if (player.sign > -1)
             {
-                Main.PlaySound(11, -1, -1, 1);
+                SoundEngine.PlaySound(11, -1, -1, 1);
                 player.sign = -1;
                 Main.editSign = false;
                 Main.npcChatText = string.Empty;
             }
             if (Main.editChest)
             {
-                Main.PlaySound(12, -1, -1, 1);
+                SoundEngine.PlaySound(12, -1, -1, 1);
                 Main.editChest = false;
                 Main.npcChatText = string.Empty;
             }
@@ -88,8 +89,8 @@ namespace MagicStorage.Items
             }
             if (player.talkNPC > -1)
             {
-                player.talkNPC = -1;
-                Main.npcChatCornerItem = 0;
+				player.SetTalkNPC(-1);
+				Main.npcChatCornerItem = 0;
                 Main.npcChatText = string.Empty;
             }
             bool hadChestOpen = player.chest != -1;
@@ -100,7 +101,7 @@ namespace MagicStorage.Items
             if (prevOpen == toOpen)
             {
                 modPlayer.CloseStorage();
-                Main.PlaySound(11, -1, -1, 1);
+                SoundEngine.PlaySound(11, -1, -1, 1);
                 Recipe.FindRecipes();
             }
             else
@@ -110,7 +111,7 @@ namespace MagicStorage.Items
                 modPlayer.timeSinceOpen = 0;
                 Main.playerInventory = true;
                 Main.recBigList = false;
-                Main.PlaySound(hadChestOpen || hadOtherOpen ? 12 : 10, -1, -1, 1);
+                SoundEngine.PlaySound(hadChestOpen || hadOtherOpen ? 12 : 10, -1, -1, 1);
                 Recipe.FindRecipes();
             }
         }
@@ -134,40 +135,43 @@ namespace MagicStorage.Items
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod, "LocatorDisk");
-            recipe.AddIngredient(mod, "RadiantJewel");
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(Mod, "LocatorDisk");
+            recipe.AddIngredient(Mod, "RadiantJewel");
             recipe.AddRecipeGroup("MagicStorage:AnyDiamond", 3);
             recipe.AddIngredient(ItemID.Ruby, 7);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
 
-            Mod otherMod = MagicStorage.bluemagicMod;
+			Mod otherMod = MagicStorage.bluemagicMod;
             if (otherMod != null)
             {
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(mod, "LocatorDisk");
+				recipe = CreateRecipe();
+				recipe.createItem = this.item.Clone();
+				recipe.createItem.stack = 1;
+                recipe.AddIngredient(Mod, "LocatorDisk");
                 recipe.AddIngredient(otherMod, "InfinityCrystal");
                 recipe.AddRecipeGroup("MagicStorage:AnyDiamond", 3);
                 recipe.AddIngredient(ItemID.Ruby, 7);
                 recipe.AddTile(otherMod, "PuriumAnvil");
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+				recipe.Register();
+			}
 
             otherMod = ModLoader.GetMod("CalamityMod");
             if (otherMod != null)
             {
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(mod, "LocatorDisk");
+				recipe = CreateRecipe();
+				recipe.createItem = this.item.Clone();
+				recipe.createItem.stack = 1;
+				recipe.AddIngredient(Mod, "LocatorDisk");
                 recipe.AddIngredient(otherMod, "CosmiliteBar", 20);
                 recipe.AddRecipeGroup("MagicStorage:AnyDiamond", 3);
                 recipe.AddIngredient(ItemID.Ruby, 7);
                 recipe.AddTile(TileID.LunarCraftingStation);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+				recipe.Register();
+			}
         }
     }
 }

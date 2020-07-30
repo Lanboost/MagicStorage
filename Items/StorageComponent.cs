@@ -10,11 +10,11 @@ namespace MagicStorage.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.AddTranslation(GameCulture.Russian, "Компонент Хранилища");
-            DisplayName.AddTranslation(GameCulture.Polish, "Komponent Magazynu");
-            DisplayName.AddTranslation(GameCulture.French, "Composant de Stockage");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Componente de Almacenamiento");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储组件");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Компонент Хранилища");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Komponent Magazynu");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Composant de Stockage");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Componente de Almacenamiento");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储组件");
         }
         
         public override void SetDefaults()
@@ -30,19 +30,20 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 0;
             item.value = Item.sellPrice(0, 0, 1, 0);
-            item.createTile = mod.TileType("StorageComponent");
+            item.createTile = Mod.TileType("StorageComponent");
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 10);
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(ItemID.Wood, 10);
             recipe.AddIngredient(ItemID.IronBar, 2);
-            recipe.anyWood = true;
-            recipe.anyIronBar = true;
+            //recipe.anyWood = true;
+            //recipe.anyIronBar = true;
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
         }
     }
 }

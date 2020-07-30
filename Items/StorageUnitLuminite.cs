@@ -11,11 +11,11 @@ namespace MagicStorage.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Luminite Storage Unit");
-            DisplayName.AddTranslation(GameCulture.Russian, "Люминитовая Ячейка Хранилища");
-            DisplayName.AddTranslation(GameCulture.Polish, "Jednostka magazynująca (Luminowana)");
-            DisplayName.AddTranslation(GameCulture.French, "Unité de stockage (Luminite)");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Unidad de Almacenamiento (Luminita)");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储单元(夜明)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Люминитовая Ячейка Хранилища");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Jednostka magazynująca (Luminowana)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Unité de stockage (Luminite)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Unidad de Almacenamiento (Luminita)");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储单元(夜明)");
         }
 
         public override void SetDefaults()
@@ -31,17 +31,18 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 10;
             item.value = Item.sellPrice(0, 2, 50, 0);
-            item.createTile = mod.TileType("StorageUnit");
+            item.createTile = Mod.TileType("StorageUnit");
             item.placeStyle = 6;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("StorageUnitBlueChlorophyte"));
-            recipe.AddIngredient(mod.ItemType("UpgradeLuminite"));
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(Mod.ItemType("StorageUnitBlueChlorophyte"));
+            recipe.AddIngredient(Mod.ItemType("UpgradeLuminite"));
+			recipe.Register();
         }
     }
 }

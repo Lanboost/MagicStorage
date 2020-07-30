@@ -26,17 +26,23 @@ namespace MagicStorage.Components
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.HookCheck = new PlacementHook(CanPlace, -1, 0, true);
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(CanPlace, -1, 0, true);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             ModifyObjectData();
             ModTileEntity tileEntity = GetTileEntity();
             if (tileEntity != null)
             {
-                TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(tileEntity.Hook_AfterPlacement, -1, 0, false);
+                TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(
+					delegate(int i1, int i2, int i3, int i4, int i5, int i6) {
+						return tileEntity.Hook_AfterPlacement(i1, i2, i3, i4, i5);
+					}, -1, 0, false);
             }
             else
             {
-                TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(TEStorageComponent.Hook_AfterPlacement_NoEntity, -1, 0, false);
+                TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(
+					delegate (int i1, int i2, int i3, int i4, int i5, int i6) {
+						return TEStorageComponent.Hook_AfterPlacement_NoEntity(i1, i2, i3, i4, i5);
+					}, -1, 0, false);
             }
             TileObjectData.addTile(Type);
             ModTranslation text = CreateMapEntryName();
@@ -58,7 +64,7 @@ namespace MagicStorage.Components
 
         public virtual int ItemType(int frameX, int frameY)
         {
-            return mod.ItemType("StorageComponent");
+            return Mod.ItemType("StorageComponent");
         }
 
         public static bool IsStorageComponent(Point16 point)
@@ -67,7 +73,7 @@ namespace MagicStorage.Components
             return tile.active() && TileLoader.GetTile(tile.type) is StorageComponent;
         }
 
-        public int CanPlace(int i, int j, int type, int style, int direction)
+        public int CanPlace(int i, int j, int type, int style, int direction, int dataAlternate)
         {
             int count = 0;
             if (GetTileEntity() != null && GetTileEntity() is TEStorageCenter)

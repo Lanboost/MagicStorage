@@ -11,11 +11,11 @@ namespace MagicStorage.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storage Crafting Interface");
-            DisplayName.AddTranslation(GameCulture.Russian, "Модуль Создания Предметов");
-            DisplayName.AddTranslation(GameCulture.Polish, "Interfejs Rzemieślniczy Magazynu");
-            DisplayName.AddTranslation(GameCulture.French, "Interface de Stockage Artisanat");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Interfaz de Elaboración de almacenamiento");
-            DisplayName.AddTranslation(GameCulture.Chinese, "制作存储单元");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Модуль Создания Предметов");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Interfejs Rzemieślniczy Magazynu");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Interface de Stockage Artisanat");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Interfaz de Elaboración de almacenamiento");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "制作存储单元");
         }
 
         public override void SetDefaults()
@@ -31,12 +31,15 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 1;
             item.value = Item.sellPrice(0, 1, 16, 25);
-            item.createTile = mod.TileType("CraftingAccess");
+            item.createTile = Mod.TileType("CraftingAccess");
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			
             recipe.AddIngredient(null, "StorageComponent");
             recipe.AddRecipeGroup("MagicStorage:AnyDiamond", 3);
             if (MagicStorage.legendMod == null)
@@ -48,8 +51,7 @@ namespace MagicStorage.Items
                 recipe.AddRecipeGroup("MagicStorage:AnySapphire", 7);
             }
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
+			recipe.Register();
+		}
     }
 }

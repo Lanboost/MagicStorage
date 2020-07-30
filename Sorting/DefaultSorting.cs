@@ -117,7 +117,8 @@ namespace MagicStorage.Sorting
 
         private static bool ThrownWeapon(Item item)
         {
-            return item.damage > 0 && (item.ammo == 0 || item.notAmmo) && item.shoot > 0 && item.thrown;
+			//TODO FIX
+            return false;
         }
 
         private static bool Weapon(Item item)

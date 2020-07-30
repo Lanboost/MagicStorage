@@ -444,7 +444,7 @@ namespace MagicStorage
             }
             if (item.stack > 0)
             {
-                item = player.GetItem(Main.myPlayer, item, false, true);
+                item = player.GetItem(Main.myPlayer, item, new GetItemSettings(LongText: false, NoText: true));
                 if (!item.IsAir)
                 {
                     player.QuickSpawnClonedItem(item, item.stack);
@@ -511,7 +511,7 @@ namespace MagicStorage
                 toWithdraw.Add(ItemIO.Receive(reader, true));
             }
             Item result = ItemIO.Receive(reader, true);
-            List<Item> items = CraftingGUI.DoCraft(heart, toWithdraw, result);
+            /*List<Item> items = CraftingGUI.DoCraft(heart, toWithdraw, result);
             if (items.Count > 0)
             {
                 ModPacket packet = MagicStorage.Instance.GetPacket();
@@ -522,7 +522,7 @@ namespace MagicStorage
                     ItemIO.Send(item, packet, true);
                 }
                 packet.Send(sender);
-            }
+            }*/
             SendRefreshNetworkItems(ent);
         }
 

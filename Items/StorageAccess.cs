@@ -10,11 +10,11 @@ namespace MagicStorage.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.AddTranslation(GameCulture.Russian, "Модуль Доступа к Хранилищу");
-            DisplayName.AddTranslation(GameCulture.Polish, "Okno dostępu do magazynu");
-            DisplayName.AddTranslation(GameCulture.French, "Access de Stockage");
-            DisplayName.AddTranslation(GameCulture.Spanish, "Acceso de Almacenamiento");
-            DisplayName.AddTranslation(GameCulture.Chinese, "存储装置");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Russian), "Модуль Доступа к Хранилищу");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Polish), "Okno dostępu do magazynu");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.French), "Access de Stockage");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Spanish), "Acceso de Almacenamiento");
+            DisplayName.AddTranslation(GameCulture.FromCultureName(GameCulture.CultureName.Chinese), "存储装置");
         }
         
         public override void SetDefaults()
@@ -30,13 +30,15 @@ namespace MagicStorage.Items
             item.consumable = true;
             item.rare = 1;
             item.value = Item.sellPrice(0, 0, 67, 50);
-            item.createTile = mod.TileType("StorageAccess");
+            item.createTile = Mod.TileType("StorageAccess");
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StorageComponent");
+			Recipe recipe = CreateRecipe();
+			recipe.createItem = this.item.Clone();
+			recipe.createItem.stack = 1;
+			recipe.AddIngredient(null, "StorageComponent");
             recipe.AddRecipeGroup("MagicStorage:AnyDiamond", 1);
             if (MagicStorage.legendMod == null)
             {
@@ -47,8 +49,7 @@ namespace MagicStorage.Items
                 recipe.AddRecipeGroup("MagicStorage:AnyTopaz", 7);
             }
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			recipe.Register();
         }
     }
 }

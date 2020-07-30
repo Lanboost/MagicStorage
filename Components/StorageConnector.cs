@@ -19,18 +19,21 @@ namespace MagicStorage.Components
             TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.HookCheck = new PlacementHook(CanPlace, -1, 0, true);
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(CanPlace, -1, 0, true);
             TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(Hook_AfterPlacement, -1, 0, false);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(
+				delegate (int i1, int i2, int i3, int i4, int i5, int i6) {
+					return Hook_AfterPlacement(i1, i2, i3, i4, i5);
+				}, -1, 0, false);
             TileObjectData.addTile(Type);
             ModTranslation text = CreateMapEntryName();
             text.SetDefault("Magic Storage");
             AddMapEntry(new Color(153, 107, 61), text);
             dustType = 7;
-            drop = mod.ItemType("StorageConnector");
+            drop = Mod.ItemType("StorageConnector");
         }
 
-        public int CanPlace(int i, int j, int type, int style, int direction)
+        public int CanPlace(int i, int j, int type, int style, int direction, int dataAlternate)
         {
             int count = 0;
 

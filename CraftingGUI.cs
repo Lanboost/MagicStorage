@@ -15,11 +15,15 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using MagicStorage.Components;
 using MagicStorage.Sorting;
+using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace MagicStorage
 {
     public static class CraftingGUI
     {
+		/*
+
         private const int padding = 4;
         private const int numColumns = 10;
         private const int numColumns2 = 7;
@@ -125,6 +129,7 @@ namespace MagicStorage
         private static List<Recipe> nextRecipes = new List<Recipe>();
         private static List<bool> nextRecipeAvailable = new List<bool>();
 
+		
         public static void Initialize()
         {
             lock (recipeLock)
@@ -134,10 +139,14 @@ namespace MagicStorage
             }
 
             InitLangStuff();
-            float itemSlotWidth = Main.inventoryBackTexture.Width * inventoryScale;
-            float itemSlotHeight = Main.inventoryBackTexture.Height * inventoryScale;
-            float smallSlotWidth = Main.inventoryBackTexture.Width * smallScale;
-            float smallSlotHeight = Main.inventoryBackTexture.Height * smallScale;
+
+			var inventoryBackTexture = TextureAssets.InventoryBack.Value;
+
+
+			float itemSlotWidth = inventoryBackTexture.Width * inventoryScale;
+            float itemSlotHeight = inventoryBackTexture.Height * inventoryScale;
+            float smallSlotWidth = inventoryBackTexture.Width * smallScale;
+            float smallSlotHeight = inventoryBackTexture.Height * smallScale;
 
             panelTop = Main.instance.invBottom + 60;
             panelLeft = 20f;
@@ -364,10 +373,10 @@ namespace MagicStorage
             {
                 sortButtons = new UIButtonChoice(new Texture2D[]
                 {
-                    Main.inventorySortTexture[0],
-                    MagicStorage.Instance.GetTexture("SortID"),
-                    MagicStorage.Instance.GetTexture("SortName")
-                },
+					TextureAssets.InventorySort[0].Value,
+                    MagicStorage.Instance.GetTexture("SortID").Value,
+                    MagicStorage.Instance.GetTexture("SortName").Value
+				},
                 new LocalizedText[]
                 {
                     Language.GetText("Mods.MagicStorage.SortDefault"),
@@ -383,9 +392,9 @@ namespace MagicStorage
             {
                 recipeButtons = new UIButtonChoice(new Texture2D[]
                 {
-                    MagicStorage.Instance.GetTexture("RecipeAvailable"),
-                    MagicStorage.Instance.GetTexture("RecipeAll")
-                },
+                    MagicStorage.Instance.GetTexture("RecipeAvailable").Value,
+                    MagicStorage.Instance.GetTexture("RecipeAll").Value
+				},
                 new LocalizedText[]
                 {
                     Language.GetText("Mods.MagicStorage.RecipeAvailable"),
@@ -400,13 +409,13 @@ namespace MagicStorage
             {
                 filterButtons = new UIButtonChoice(new Texture2D[]
                 {
-                    MagicStorage.Instance.GetTexture("FilterAll"),
-                    MagicStorage.Instance.GetTexture("FilterMelee"),
-                    MagicStorage.Instance.GetTexture("FilterPickaxe"),
-                    MagicStorage.Instance.GetTexture("FilterArmor"),
-                    MagicStorage.Instance.GetTexture("FilterPotion"),
-                    MagicStorage.Instance.GetTexture("FilterTile"),
-                    MagicStorage.Instance.GetTexture("FilterMisc"),
+                    MagicStorage.Instance.GetTexture("FilterAll").Value,
+                    MagicStorage.Instance.GetTexture("FilterMelee").Value,
+                    MagicStorage.Instance.GetTexture("FilterPickaxe").Value,
+                    MagicStorage.Instance.GetTexture("FilterArmor").Value,
+                    MagicStorage.Instance.GetTexture("FilterPotion").Value,
+                    MagicStorage.Instance.GetTexture("FilterTile").Value,
+                    MagicStorage.Instance.GetTexture("FilterMisc").Value,
                 },
                 new LocalizedText[]
                 {
@@ -704,7 +713,7 @@ namespace MagicStorage
                             }
                             TryCraft();
                             RefreshItems();
-                            Main.PlaySound(7, -1, -1, 1);
+                            SoundEngine.PlaySound(7, -1, -1, 1);
                         }
                         craftTimer--;
                         flag = true;
@@ -1170,7 +1179,7 @@ namespace MagicStorage
                 if (changed)
                 {
                     RefreshItems();
-                    Main.PlaySound(7, -1, -1, 1);
+                    SoundEngine.PlaySound(7, -1, -1, 1);
                 }
             }
 
@@ -1255,7 +1264,7 @@ namespace MagicStorage
                 if (changed)
                 {
                     RefreshItems();
-                    Main.PlaySound(7, -1, -1, 1);
+                    SoundEngine.PlaySound(7, -1, -1, 1);
                 }
             }
 
@@ -1299,9 +1308,7 @@ namespace MagicStorage
                     {
                         Main.mouseItem.stack += withdrawn.stack;
                     }
-                    Main.soundInstanceMenuTick.Stop();
-                    Main.soundInstanceMenuTick = Main.soundMenuTick.CreateInstance();
-                    Main.PlaySound(12, -1, -1, 1);
+                    SoundEngine.PlaySound(12, -1, -1, 1);
                     RefreshItems();
                 }
                 rightClickTimer--;
@@ -1349,7 +1356,7 @@ namespace MagicStorage
 
         private static void TryCraft()
         {
-            List<Item> availableItems = new List<Item>(storageItems.Where(item => !blockStorageItems.Contains(new ItemData(item))).Select(item => item.Clone()));
+			List<Item> availableItems = new List<Item>(storageItems.Where(item => !blockStorageItems.Contains(new ItemData(item))).Select(item => item.Clone()));
             List<Item> toWithdraw = new List<Item>();
             for (int k = 0; k < selectedRecipe.requiredItem.Length; k++)
             {
@@ -1486,6 +1493,6 @@ namespace MagicStorage
                 NetHelper.SendWithdraw(heart.ID, item, toInventory);
                 return new Item();
             }
-        }
-    }
+        }*/
+	}
 }

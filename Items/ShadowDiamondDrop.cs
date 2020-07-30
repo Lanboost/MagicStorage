@@ -85,7 +85,7 @@ namespace MagicStorage.NPCs
 
         private void DropDiamond(NPC npc, int stack)
         {
-            Item.NewItem(npc.position, npc.width, npc.height, mod.ItemType("ShadowDiamond"), stack);
+            Item.NewItem(npc.position, npc.width, npc.height, Mod.ItemType("ShadowDiamond"), stack);
         }
     }
 }

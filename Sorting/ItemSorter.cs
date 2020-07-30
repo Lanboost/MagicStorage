@@ -123,10 +123,10 @@ namespace MagicStorage.Sorting
             foreach (Recipe recipe in filteredRecipes)
             {
                 sortedTree.Insert(recipe);
-                if (CraftingGUI.threadNeedsRestart)
+                /*if (CraftingGUI.threadNeedsRestart)
                 {
                     return new List<Recipe>();
-                }
+                }*/
             }
             return sortedTree.GetSortedItems();
         }
@@ -136,7 +136,7 @@ namespace MagicStorage.Sorting
             string modName = "Terraria";
             if (item.modItem != null)
             {
-                modName = item.modItem.mod.DisplayName;
+                modName = item.modItem.Mod.DisplayName;
             }
             return modName.ToLowerInvariant().IndexOf(modFilter.ToLowerInvariant()) >= 0 && item.Name.ToLowerInvariant().IndexOf(filter.ToLowerInvariant()) >= 0;
         }
